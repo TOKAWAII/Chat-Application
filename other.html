@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://code.jquery.com/ui/1.12.4/jquery-ui.js"></script>
+
+</head>
+<body>
+    
+    <form action="" method="post">
+        <input type="text" id="weather_details" name="place" required/>
+        <input type="button" id="ok" value="Submit">
+    </form>
+    <div id="weather_data"></div>
+
+    <script>
+        $(document).ready(function(){
+            $(document).on("click","#ok", function(){
+                var city = $("#weather_details").val();
+                var API_KEY = '870506ace0e4263ddc638d8de914b20f';
+                var link = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
+  
+                $.ajax({
+                    method: "GET",
+                    url: link,
+                    datatype: 'JSON',
+                    success: function(data) {
+                        displayWeatherData(data);
+                    }
+                });
+            });
+        });
+
+        function displayWeatherData(data)
+        {
+          var output=`
+            <h2>${data.name}</h2>
+            <h3>Place ${data.weather[0].description}<h3>
+             <p>temp ${data.main.temp} &#8451;<p>
+              `;
+            $("#weather_data").html(output);
+
+        }
+    </script>
+</body>
+</html>
